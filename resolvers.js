@@ -10,9 +10,7 @@ const user ={
 module.exports ={
 
      Query:{
-         me:()=>{
-
-         }
+         me:()=> user
      }
 
 
