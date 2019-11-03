@@ -1,17 +1,17 @@
 import React from 'react';
+import Login from '../Components/Auth/Login';
 
 
 
 const Splash = () =>{
 
+  
 
+    return(
 
+         <Login/>
 
- return(
-     <div>
-         <h1>This Splash</h1>
-     </div>
- )
+    )
 
 
 
