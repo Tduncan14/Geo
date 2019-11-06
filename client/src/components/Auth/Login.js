@@ -1,10 +1,10 @@
 import React from 'react';
 import {withStyles} from "@material-ui/core/styles";
 import GoogleLogin from 'react-google-login';
-import {request, GraphQLClient } from "graphql-request"
+import { GraphQLClient } from "graphql-request"
 
 
-const Me_Query = `
+const ME_Query = `
 {
   me{
     _id
@@ -26,7 +26,9 @@ const Login = ({classes}) =>{
         headers: { authorization: idToken }
       })
 
-      const data = await client.request(Me_Query);
+      const data = await client.request(ME_Query);
+
+      console.log({data});
       
     }
 
