@@ -1,25 +1,14 @@
-import React ,{Component} from 'react';
+import React  from 'react';
 import withRoot from "../withRoot";
+import Header from '../Components/Header';
+
+ const Main = () =>{
 
 
- class Main extends Component {
 
-    constructor(props){
-        super(props)
-
-        this.state={}
-    }
-
-    render(){
-
-        return(
-            <div>
-                This is from the main
-            </div>
-        )
-    }
+  return <div>
+      <Header />
+  </div>
  }
-
-
 
 export default withRoot(Main);

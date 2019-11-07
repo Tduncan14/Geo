@@ -20,3 +20,9 @@
 .App-link {
   color: #09d3ac;
 }
+
+
+.MuiAppBar-colorPrimary-50 {
+  color: #fff;
+  background-color: darkblue !important;
+}
