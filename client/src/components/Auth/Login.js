@@ -1,46 +1,69 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import {withStyles} from "@material-ui/core/styles";
 import GoogleLogin from 'react-google-login';
 import { GraphQLClient } from "graphql-request"
-
-
-const ME_Query = `
-{
-  me{
-    _id
-    name
-    email
-    picture
-  }
-}`
+import Context from '../../context';
+import Typography from '@material-ui/core/Typography';
+import {ME_QUERY} from '../../graphql/queries';
 
 
 const Login = ({classes}) =>{
-    
-    const onSuccess = async googleUser =>{
-        console.log(googleUser)
 
+  const {dispatch} = useContext(Context)
+    const onSuccess = async googleUser =>{
+    
+
+    try{
       const idToken = googleUser.getAuthResponse().id_token
 
-     const client = new GraphQLClient('http://localhost:4000/graphql', {
-        headers: { authorization: idToken }
-      })
+      const client = new GraphQLClient('http://localhost:4000/graphql', {
+         headers: { authorization: idToken }
+       })
+       
+       // coming from the me query from the backend
+       const {me} = await client.request(ME_QUERY);
+ 
+       console.log(me,"this is me");
+ 
+       console.log(`${googleUser.isSignedIn()} google`)
+       
+       dispatch({type: "LOGIN_USER" ,payload : me})
+       dispatch({type: "IS_LOGGED_IN" ,payload : googleUser.isSignedIn()})
+    }
 
-      const data = await client.request(ME_Query);
+    catch(err){
 
-      console.log({data});
+       onFailure(err);
+    }
+  
       
     }
 
+    const onFailure = err => {
+
+      console.log(`The error is ${err}`);
+    }
 
 
     return (
+      <div className={classes.root}>
+        <Typography
+         component="h1"
+         variant="h3"
+         gutterBottom
+         noWrap
+         style={{color:"rgb(66,133,144)"}}>
+          
+          Welcome
+        </Typography>
          <GoogleLogin clientId={"840634021113-3il8jjrjuebchbl2j08kj26cqm0tgiva.apps.googleusercontent.com"}
           buttonText="Login"
           onSuccess={onSuccess}
           isSignedIn={true}
-         
+          onFailure={onFailure}
+          theme ="dark"
           />
+          </div>
     )
 }
 
@@ -54,4 +77,4 @@ const styles = {
     }
   };
 
-export default Login
+export default withStyles(styles)(Login)
