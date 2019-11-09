@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect,useState,useContext } from "react";
 import {withStyles} from "@material-ui/core/styles"
-import ReactMapGL from 'react-map-gl';
-
-
-const viewport = {
+import ReactMapGL,{NavigationControl,Marker} from 'react-map-gl';
+import PinIcon from './PinIcon.js';
+import Context from '../context';
+const INITIAL_VIEWPORT = {
 
         latitude:37.7577,
         longitude:-122.4376,
@@ -16,15 +16,110 @@ const viewport = {
 const Map = ({classes}) => {
 
 
+    const {dispatch,state} = useContext(Context)
+
+
+      const [viewport, setViewport] = useState(INITIAL_VIEWPORT)
+      const [userPosition,setUserPosition] = useState(null) 
+      
+      useEffect(() =>{
+
+        getUserPosition()
+      },[])
+
+      const getUserPosition = () =>{
+
+        if("geolocation" in navigator){
+
+          navigator.geolocation.getCurrentPosition(position => {
+           const {latitude,longitude}  = position.coords
+
+           setViewport({...viewport,latitude,longitude})
+
+           setUserPosition({latitude,longitude});
+          })
+        }
+      }
+
+        //  const newUserPosition = (event) =>{
+
+        //   const {lngLat} = event;
+          
+        //   const newlatitude = lngLat[0];
+        //   const  newlongitude = lngLat[1];
+           
+
+        //   navigator.geolocation.getCurrentPosition( position =>{
+
+        //     let {latitude,longitude} = position.coords
+
+        //      latitude = newlatitude;
+        //      longitude = newlongitude;
+
+            
+        //    setViewport({...viewport,latitude,longitude})
+
+        //    setUserPosition({latitude,longitude});
+
+
+        //     })}
+        const handleMapClick = ({ lngLat, leftButton }) => {
+          if (!leftButton) return;
+          if (!state.draft) {
+            dispatch({ type: "CREATE_DRAFT" });
+          }
+          const [longitude, latitude] = lngLat;
+          dispatch({
+            type: "UPDATE_DRAFT_LOCATION",
+            payload: { longitude, latitude }
+          });
+        };
+        
+       
+
+
+      
+
     return(
         <>
         <div className = {classes.root}>
             <ReactMapGL
              width="100vw"
              height="calc(100vh - 64px"
-             mapStyle="mapbox://styles/mapbox/streets-v9"
+             mapStyle="mapbox://styles/mapbox/satellite-streets-v10?"
              mapboxApiAccessToken="pk.eyJ1IjoidGR1bmNhbjE0IiwiYSI6ImNrMjltcnNoNTFyNTgzbXBldDhpeGFma20ifQ.sHwhRS9UlWefPCG7xjBQ6Q"
+             onViewportChange={newViewport => setViewport(newViewport)
+            }
+            onClick ={handleMapClick}
              {...viewport}>
+               <div className={classes.navigationControl}>
+              <NavigationControl
+               onViewportChange={newViewport => setViewport(newViewport)}/>
+             </div>
+             {/*  pin for usee's current positon */}
+
+             
+             {userPosition && (
+             <Marker
+               latitude = {userPosition.latitude}
+               longitude = {userPosition.longitude}
+               offsetLeft={-19}
+               offsetTop ={-37}
+               >
+
+                 <PinIcon size ={40} color="blue"/>
+
+               </Marker>
+             )}
+
+            {/* Draft pin area */}
+            {state.draft && (
+              <Marker  
+                latitude ={state.draft.latitude}
+                longitude ={state.draft.longitude}>
+                  <PinIcon size={40} color={"lightblue"}/>
+                </Marker>
+            )}
 
             </ReactMapGL>
         </div>
