@@ -14,6 +14,14 @@ export default function reducer(state,{type,payload}){
        isAuth:payload
     
    }
+
+   case "SIGNOUT_USER":
+       return{
+           ...state,
+           isAuth:false,
+           currentUser:null
+
+       }
    default:
        return state
     

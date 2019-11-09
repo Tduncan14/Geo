@@ -5,7 +5,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import MapIcon from "@material-ui/icons/Map";
 import Typography from "@material-ui/core/Typography";
 import blue from '@material-ui/core/colors/blue';
-
+import Signout from '../Components/Auth/Signout'
 import Context from "../context";
 
 
@@ -47,6 +47,8 @@ const Header = ({ classes }) => {
               </Typography>
             </div>
           )}
+
+          <Signout />
 
        
         </Toolbar>
