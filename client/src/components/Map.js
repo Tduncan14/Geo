@@ -3,6 +3,7 @@ import {withStyles} from "@material-ui/core/styles"
 import ReactMapGL,{NavigationControl,Marker} from 'react-map-gl';
 import PinIcon from './PinIcon.js';
 import Context from '../context';
+import Blog from '../Components/Blog';
 const INITIAL_VIEWPORT = {
 
         latitude:37.7577,
@@ -86,7 +87,7 @@ const Map = ({classes}) => {
             <ReactMapGL
              width="100vw"
              height="calc(100vh - 64px"
-             mapStyle="mapbox://styles/mapbox/satellite-streets-v10?"
+             mapStyle="mapbox://styles/mapbox/satellite-streets-v10"
              mapboxApiAccessToken="pk.eyJ1IjoidGR1bmNhbjE0IiwiYSI6ImNrMjltcnNoNTFyNTgzbXBldDhpeGFma20ifQ.sHwhRS9UlWefPCG7xjBQ6Q"
              onViewportChange={newViewport => setViewport(newViewport)
             }
@@ -103,8 +104,6 @@ const Map = ({classes}) => {
              <Marker
                latitude = {userPosition.latitude}
                longitude = {userPosition.longitude}
-               offsetLeft={-19}
-               offsetTop ={-37}
                >
 
                  <PinIcon size ={40} color="blue"/>
@@ -122,6 +121,10 @@ const Map = ({classes}) => {
             )}
 
             </ReactMapGL>
+
+            {/* Blog area for pin content */}
+
+             <Blog classes={'true'} />
         </div>
         </>
     )
