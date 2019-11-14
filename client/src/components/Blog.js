@@ -17,7 +17,7 @@ const Blog = ({ classes }) => {
   if (!draft ) {
     BlogContent = NoContent;
   } else if (draft) {
-    BlogContent = PinContent;
+    BlogContent = CreatePin;
   }
 
   return (
