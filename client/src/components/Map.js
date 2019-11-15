@@ -123,8 +123,8 @@ const Map = ({classes}) => {
             <ReactMapGL
              width="100vw"
              height="calc(100vh - 64px"
-             mapStyle="mapbox://styles/mapbox/satellite-streets-v10"
-             mapboxApiAccessToken="pk.eyJ1IjoidGR1bmNhbjE0IiwiYSI6ImNrMjltcnNoNTFyNTgzbXBldDhpeGFma20ifQ.sHwhRS9UlWefPCG7xjBQ6Q"
+             mapStyle="mapbox://styles/mapbox/satellite-streets-v9"
+             mapboxApiAccessToken="pk.eyJ1IjoidGR1bmNhbjE0IiwiYSI6ImNrMzBkZzV0YzBtejczbnFpaWF1djF5MmEifQ.jRIjI6naGvYlyliQNO1IMg"
              onViewportChange={newViewport => setViewport(newViewport)
             }
             onClick ={handleMapClick}
@@ -140,6 +140,7 @@ const Map = ({classes}) => {
              <Marker
                latitude = {userPosition.latitude}
                longitude = {userPosition.longitude}
+              
                >
 
                  <PinIcon size ={40} color="blue"/>
@@ -151,7 +152,9 @@ const Map = ({classes}) => {
             {state.draft && (
               <Marker  
                 latitude ={state.draft.latitude}
-                longitude ={state.draft.longitude}>
+                longitude ={state.draft.longitude}
+                >
+                  
                   <PinIcon size={40} color={"lightblue"}/>
                 </Marker>
             )}
@@ -227,7 +230,8 @@ const Map = ({classes}) => {
           padding: "0.4em",
           height: 200,
           width: 200,
-          objectFit: "cover"
+          objectFit: "cover",
+          cursor:"pointer"
         },
         popupTab: {
           display: "flex",
