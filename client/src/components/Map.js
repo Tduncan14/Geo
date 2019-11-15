@@ -1,12 +1,13 @@
 import React, { useEffect,useState,useContext } from "react";
 import {withStyles} from "@material-ui/core/styles"
-import ReactMapGL,{NavigationControl,Marker} from 'react-map-gl';
+import ReactMapGL,{NavigationControl,Marker, Popup} from 'react-map-gl';
 import PinIcon from './PinIcon.js';
 import Context from '../context';
 import Blog from './Blog';
 import { useClient } from '../client';
 import {GET_PINS_QUERY} from '../graphql/queries';
 import differenceInMinutes from "date-fns/difference_in_minutes";
+
 
 
 const INITIAL_VIEWPORT = {
@@ -34,14 +35,14 @@ const Map = ({classes}) => {
 
       const [viewport, setViewport] = useState(INITIAL_VIEWPORT)
       const [userPosition,setUserPosition] = useState(null) 
-      
+   
       useEffect(() =>{
 
         getUserPosition()
       },[])
 
     
-
+  const [popup,setPopup] = useState(null)
       const getPins = async () =>{
 
         const { getPins } = await client.request(GET_PINS_QUERY)
@@ -109,6 +110,12 @@ const Map = ({classes}) => {
 
       }
 
+      const handleSelectPin = pin =>{
+
+        setPopup(pin)
+        dispatch({type:"SET_PIN",payload: pin})
+      }
+
     return(
         <>
         <div className = {classes.root}>
@@ -151,6 +158,7 @@ const Map = ({classes}) => {
             {/* createdPins */}
             {state.pins.map(pin =>(
                 <Marker
+                onClick={() => handleSelectPin(pin)}
                 latitude = {pin.latitude}
                 longitude = {pin.longitude}
                 key={pin._id}
