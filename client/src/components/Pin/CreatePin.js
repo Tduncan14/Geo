@@ -10,7 +10,7 @@ import Context from '../../context';
 import ClearIcon from "@material-ui/icons/Clear";
 import SaveIcon from "@material-ui/icons/SaveTwoTone";
 import axios from 'axios';
-import {CREATE_PIN_MUTATION} from '../../graphql/mutation';
+import {CREATE_PIN_MUTATION} from '../../graphql/mutations';
 const CreatePin = ({ classes }) => {
 
  const [title ,setTitle] = useState("");
@@ -29,6 +29,7 @@ const CreatePin = ({ classes }) => {
   setImage(" ")
   setContent(" ")
   dispatch({type:"DELETE_DRAFT"})
+  setSubmit(false)
   
  }
 
@@ -52,37 +53,27 @@ const CreatePin = ({ classes }) => {
  }
 
  const handleSubmit = async event => {
-
-
   try {
-  event.preventDefault();
+    event.preventDefault();
+    setSubmit(true);
+    const url = await handleImageUpload();
+    const idToken = window.gapi.auth2.
+    getAuthInstance().currentUser
+    .get().getAuthResponse().id_token;
 
-  setSubmit(true);
+    const client = new GraphQLClient('http://localhost:4000/graphql',{headers:{authorization:idToken}})
+    const { latitude, longitude } = state.draft;
+    const variables = { title, image: url, content, latitude, longitude };
+    const {createPin} = await client.request(CREATE_PIN_MUTATION, variables);
 
-  const idToken = window.gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
-
-   new GraphQLClient('http://localhost:4000/graphql',
-   { headers:{authorization:idToken}})
-
-   const url = await handleImageUpload()
-
-   const {latitude , longitude} = state.draft;
-
-   const variables = {title, image:url , content, latitude, longitude }
-
-   const { createPin}  = await client.request(CREATE_PIN_MUTATION, variables)
-
-   console.log("Pin created" , {createPin});
-
-   console.log( {image,title,content,url});
+  
+    console.log(createPin,"created");
+    handleDeleteDraft();
+  } catch (err) {
+    setSubmit(false);
+    console.error("Error creating pin", err);
   }
-    catch(err) {
-      console.log( 'this is the error ', err)
-
-
-      }
- }
-
+};
   return (
     <form className={classes.form}>
    
