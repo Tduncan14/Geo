@@ -6,6 +6,8 @@ import Context from '../context';
 import Blog from './Blog';
 import { useClient } from '../client';
 import {GET_PINS_QUERY} from '../graphql/queries';
+import differenceInMinutes from "date-fns/difference_in_minutes";
+
 
 const INITIAL_VIEWPORT = {
 
@@ -98,7 +100,14 @@ const Map = ({classes}) => {
        
 
 
-      
+      const highlightNewPin = pin =>{
+
+       const newPin = differenceInMinutes(Date.now(),Number(pin.createdAt)) <= 30
+
+
+        return newPin ? "limeGreen" : "darkblue";
+
+      }
 
     return(
         <>
@@ -147,7 +156,7 @@ const Map = ({classes}) => {
                 key={pin._id}
                 >
  
-                  <PinIcon size ={40} color="darkblue"/>
+                  <PinIcon size ={40} color={highlightNewPin(pin)}/>
  
                 </Marker>
 
