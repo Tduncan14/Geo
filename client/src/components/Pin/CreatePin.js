@@ -8,7 +8,7 @@ import LandscapeIcon from "@material-ui/icons/LandscapeOutlined";
 import Context from '../../context';
 import ClearIcon from "@material-ui/icons/Clear";
 import SaveIcon from "@material-ui/icons/SaveTwoTone";
-
+import axios from 'axios';
 
 const CreatePin = ({ classes }) => {
 
@@ -23,15 +23,38 @@ const CreatePin = ({ classes }) => {
  const handleDeleteDraft = event => {
 
 
+  setTitle(" ")
+  setImage(" ")
+  setContent(" ")
   dispatch({type:"DELETE_DRAFT"})
   
  }
 
- const handleSubmit = event => {
+
+ const handleImageUpload = async () => {
+
+   const data = new FormData()
+
+
+   // working with cloudinary api
+   data.append("file",image)
+   data.append("upload_preset",'geotreek')
+   data.append("cloud_name","treek")
+
+ const res = await axios.post(
+     "https://api.cloudinary.com/v1_1/treek/image/upload",
+     data
+   )
+
+   return res.data.url
+ }
+
+ const handleSubmit = async event => {
 
   event.preventDefault();
 
-   console.log( {image,title,content});
+   const url = await handleImageUpload()
+   console.log( {image,title,content,url});
 
  }
 
