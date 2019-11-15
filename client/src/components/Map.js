@@ -7,6 +7,7 @@ import Blog from './Blog';
 import { useClient } from '../client';
 import {GET_PINS_QUERY} from '../graphql/queries';
 import differenceInMinutes from "date-fns/difference_in_minutes";
+import { Typography } from "@material-ui/core";
 
 
 
@@ -169,6 +170,29 @@ const Map = ({classes}) => {
                 </Marker>
 
             ))}
+            {/* popup dialog */}
+
+            {popup && (
+              <Popup  
+               anchor="top"
+               latitude={popup.latitude}
+               longitude={popup.longitude}
+               closeOnClick={false}
+               onClose={() => setPopup(null)}>
+                  <img
+                  className={classes.popupImage}
+                      src={popup.image} 
+                      alt={popup.title}/>
+
+
+                      <div className={classes.popupTab}>
+                        <Typography>
+                          {popup.latitude.toFixed(6)},
+                          {popup.longitude.toFixed(6)}
+                        </Typography>
+                      </div>
+               </Popup>
+            )}
 
             </ReactMapGL>
 
