@@ -28,6 +28,10 @@ module.exports = {
       }).save();
       const pinAdded = await Pin.populate(newPin, "author");
       return pinAdded;
-    })
+    }),
+
+    deletPin: async (root,args,ctx) =>{
+      await Pin.findByIdAndDelete({ _id:args.pinId}).exec()
+    }
  }
 }

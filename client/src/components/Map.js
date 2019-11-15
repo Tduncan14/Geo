@@ -8,7 +8,8 @@ import { useClient } from '../client';
 import {GET_PINS_QUERY} from '../graphql/queries';
 import differenceInMinutes from "date-fns/difference_in_minutes";
 import { Typography } from "@material-ui/core";
-
+import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/DeleteTwoTone';
 
 
 const INITIAL_VIEWPORT = {
@@ -118,6 +119,8 @@ const Map = ({classes}) => {
         dispatch({type:"SET_PIN",payload: pin})
       }
 
+      const isAuthUser = () => state.currentUser._id === popup.author._id
+
     return(
         <>
         <div className = {classes.root}>
@@ -195,6 +198,12 @@ const Map = ({classes}) => {
                           {popup.latitude.toFixed(6)},
                           {popup.longitude.toFixed(6)}
                         </Typography>
+
+                        {(isAuthUser() && 
+                        <Button>
+                          
+                        <DeleteIcon/>
+                          </Button>)}
                       </div>
                </Popup>
             )}
