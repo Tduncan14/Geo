@@ -4,6 +4,8 @@ import ReactMapGL,{NavigationControl,Marker} from 'react-map-gl';
 import PinIcon from './PinIcon.js';
 import Context from '../context';
 import Blog from './Blog';
+import { useClient } from '../client';
+import {GET_PINS_QUERY} from '../graphql/queries';
 
 const INITIAL_VIEWPORT = {
 
@@ -28,6 +30,18 @@ const Map = ({classes}) => {
 
         getUserPosition()
       },[])
+
+      useEffect(() =>{
+
+        getPins()
+      }, [])
+
+
+      const getPins = async () =>{
+
+        const { getPins } = await client.request(GET_PINS_QUERY)
+        console.log(getPins);
+      }
 
       const getUserPosition = () =>{
 
