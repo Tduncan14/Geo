@@ -44,6 +44,7 @@ const Map = ({classes}) => {
 
     
   const [popup,setPopup] = useState(null)
+  
       const getPins = async () =>{
 
         const { getPins } = await client.request(GET_PINS_QUERY)
@@ -125,10 +126,10 @@ const Map = ({classes}) => {
              height="calc(100vh - 64px"
              mapStyle="mapbox://styles/mapbox/satellite-streets-v9"
              mapboxApiAccessToken="pk.eyJ1IjoidGR1bmNhbjE0IiwiYSI6ImNrMzBkZzV0YzBtejczbnFpaWF1djF5MmEifQ.jRIjI6naGvYlyliQNO1IMg"
-             onViewportChange={newViewport => setViewport(newViewport)
-            }
-            onClick ={handleMapClick}
+             onViewportChange={newViewport => setViewport(newViewport)}
+             onClick ={handleMapClick}
              {...viewport}>
+
                <div className={classes.navigationControl}>
               <NavigationControl
                onViewportChange={newViewport => setViewport(newViewport)}/>
@@ -162,13 +163,14 @@ const Map = ({classes}) => {
             {/* createdPins */}
             {state.pins.map(pin =>(
                 <Marker
-                onClick={() => handleSelectPin(pin)}
                 latitude = {pin.latitude}
                 longitude = {pin.longitude}
                 key={pin._id}
                 >
  
-                  <PinIcon size ={40} color={highlightNewPin(pin)}/>
+                  <PinIcon 
+                   onClick={() => handleSelectPin(pin)}
+                  size ={40} color={highlightNewPin(pin)}/>
  
                 </Marker>
 
@@ -237,7 +239,8 @@ const Map = ({classes}) => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          flexDirection: "column"
+          flexDirection: "column",
+          zIndex:1
         }
 }
 
