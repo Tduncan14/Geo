@@ -7,6 +7,24 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import Context from './context';
 import reducer from './reducer';
 import ProtectedRoute from './ProtectedRoute';
+import {ApolloProvider} from 'react-apollo';
+import {ApolloClient} from 'apollo-client';
+import {WebSocketLink} from 'apollo-link-ws';
+import {InMemoryCache} from 'apollo-cache-inmemory';
+
+const wsLink = new WebSocketLink({
+    uri:'ws://localhost:4000/graphql',
+    options:{
+        reconnect:true
+    }
+})
+
+const client = new ApolloClient({
+    link:wsLink,
+    cache:new InMemoryCache
+})
+
+
 function App() {
 
   const initialState = useContext(Context)
@@ -18,12 +36,14 @@ function App() {
 
   return (
     <Router>
+      <ApolloProvider client={client}>
       <Context.Provider value={{state,dispatch}}>
       <Switch>
         <ProtectedRoute exact path="/" component={Main}/>
         <Route path="/login" component={Splash}/>
       </Switch>
       </Context.Provider>
+      </ApolloProvider>
     </Router>
   );
 }
