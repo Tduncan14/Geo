@@ -46,5 +46,14 @@ module.exports = gql`
     createComment(pinId: ID!, text: String!): Pin
 
   }
+
+  type Subscription {
+
+    pinAdded:Pin
+    pinDeleted:Pin
+    pinUpdated:Pin
+
+
+  }
  
 `;

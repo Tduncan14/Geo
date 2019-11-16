@@ -1,4 +1,4 @@
-const { AuthenticationError} = require("apollo-server");
+const { AuthenticationError, PubSub} = require("apollo-server");
 const Pin = require("./models/Pin");
 
 
@@ -45,5 +45,8 @@ module.exports = {
         .populate("comments.author");
       return pinUpdated;
     })
+ },
+ Subscription:{
+
  }
 }

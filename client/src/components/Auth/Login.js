@@ -42,6 +42,7 @@ const Login = ({classes}) =>{
     const onFailure = err => {
 
       console.log(`The error is ${err}`);
+      dispatch({type:"IS_LOGGED_IN",payload:false})
     }
 
 
