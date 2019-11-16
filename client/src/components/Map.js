@@ -12,7 +12,7 @@ import { Typography } from "@material-ui/core";
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/DeleteTwoTone';
 import {DELETE_PIN_MUTATION} from '../graphql/mutations';
-import {PIN_ADDED_SUBSCRIPTION,PIN_UPDATED_SUBSCRIPTION,PIN_DELETED_SUBSCRIPTON} from '../graphql/subscriptions';
+import {PIN_ADDED_SUBSCRIPTION,PIN_UPDATED_SUBSCRIPTION,PIN_DELETED_SUBSCRIPTION} from '../graphql/subscriptions';
 
 
 const INITIAL_VIEWPORT = {
@@ -247,7 +247,7 @@ const Map = ({classes}) => {
 
 
 <Subscription
-             subscription={PIN_Deleted_SUBSCRIPTION} 
+             subscription={PIN_DELETED_SUBSCRIPTION} 
              onSubscriptionData={({subscriptionData}) =>{
               const {pinDeleted} = subscriptionData.data 
 
