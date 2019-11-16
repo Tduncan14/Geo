@@ -7,10 +7,11 @@ import Typography from "@material-ui/core/Typography";
 import blue from '@material-ui/core/colors/blue';
 import Signout from '../Components/Auth/Signout'
 import Context from "../context";
-
+import {unstable_useMediaQuery as useMediaQuery}  from '@material-ui/core/useMediaQuery'
 
 
 const Header = ({ classes }) => {
+  const mobileSize = useMediaQuery('(max-width:650px')
   const { state } = useContext(Context);
   const { currentUser } = state;
   return (
@@ -25,8 +26,9 @@ const Header = ({ classes }) => {
               variant="h6"
               color="inherit"
               noWrap
+              className={mobileSize ? classes.mobile : ''}
             >
-              Geo
+              PinMap
             </Typography>
           </div>
 
@@ -39,6 +41,7 @@ const Header = ({ classes }) => {
                 alt={currentUser.name}
               />
               <Typography
+                className={mobileSize ? classes.mobile : " "}
                 variant="h5"
                 color="inherit"
                 noWrap

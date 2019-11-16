@@ -7,6 +7,7 @@ import NoContent from "./Pin/NoContent";
 import CreatePin from "./Pin/CreatePin";
 import PinContent from "./Pin/PinContent";
 
+
 const Blog = ({ classes }) => {
   const mobileSize = useMediaQuery("(max-width: 650px)");
   const { state } = useContext(Context);

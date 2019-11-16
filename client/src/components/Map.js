@@ -13,7 +13,7 @@ import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/DeleteTwoTone';
 import {DELETE_PIN_MUTATION} from '../graphql/mutations';
 import {PIN_ADDED_SUBSCRIPTION,PIN_UPDATED_SUBSCRIPTION,PIN_DELETED_SUBSCRIPTION} from '../graphql/subscriptions';
-
+import {unstable_useMediaQuery as useMediaQuery}  from '@material-ui/core/useMediaQuery'
 
 const INITIAL_VIEWPORT = {
 
@@ -29,6 +29,7 @@ const Map = ({classes}) => {
 
     const client = useClient();
 
+    const mobileSize = useMediaQuery('(max-width:650px)')
     const {dispatch,state} = useContext(Context)
 
 
@@ -139,12 +140,13 @@ const Map = ({classes}) => {
 
     return(
         <>
-        <div className = {classes.root}>
+        <div className = {mobileSize ? classes.rootMobile : classes.root}>
             <ReactMapGL
              width="100vw"
              height="calc(100vh - 64px"
              mapStyle="mapbox://styles/mapbox/satellite-streets-v9"
              mapboxApiAccessToken="pk.eyJ1IjoidGR1bmNhbjE0IiwiYSI6ImNrMzBkZzV0YzBtejczbnFpaWF1djF5MmEifQ.jRIjI6naGvYlyliQNO1IMg"
+             scrollZoom ={!mobileSize}
              onViewportChange={newViewport => setViewport(newViewport)}
              onClick ={handleMapClick}
              {...viewport}>
