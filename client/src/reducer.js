@@ -69,10 +69,12 @@ case "DELETE_PIN":
 
     const deletePin = payload;
     
-    const filteredPins = state.pins.filter(pin => pin._id !== deletePin._id)
-    
+    const filteredPins = state.pins.filter(pin => pin._id !== deletePin._id);
+
+  
      if(state.currentPin){
            const isCurrentPin = deletePin._id === state.currentPin._id;
+
            if(isCurrentPin){
                
              return {
@@ -81,6 +83,11 @@ case "DELETE_PIN":
                  currentPin:null,
              }
            }
+     }
+
+     return {
+         ...state,
+         pins:filteredPins
      }
 
      case "CREATE_COMMENT":
