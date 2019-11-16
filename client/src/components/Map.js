@@ -10,7 +10,7 @@ import differenceInMinutes from "date-fns/difference_in_minutes";
 import { Typography } from "@material-ui/core";
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/DeleteTwoTone';
-
+import {DELETE_PIN_MUTATION} from '../graphql/mutations';
 
 const INITIAL_VIEWPORT = {
 
@@ -66,6 +66,19 @@ const Map = ({classes}) => {
            setUserPosition({latitude,longitude});
           })
         }
+      }
+
+      const handleDeletePin =  async pin => {
+
+       const variables = {pinId: pin._id}
+
+       await client.request(DELETE_PIN_MUTATION, variables);
+
+       setPopup(null)
+
+
+
+
       }
 
         //  const newUserPosition = (event) =>{
@@ -199,11 +212,11 @@ const Map = ({classes}) => {
                           {popup.longitude.toFixed(6)}
                         </Typography>
 
-                        {(isAuthUser() && 
-                        <Button>
-                          
-                        <DeleteIcon/>
-                          </Button>)}
+                        {isAuthUser() && (
+                <Button onClick={() => handleDeletePin(popup)}>
+                  <DeleteIcon className={classes.deleteIcon} />
+                </Button>
+              )}
                       </div>
                </Popup>
             )}

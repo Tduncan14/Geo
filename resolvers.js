@@ -30,8 +30,9 @@ module.exports = {
       return pinAdded;
     }),
 
-    deletPin: async (root,args,ctx) =>{
-      await Pin.findByIdAndDelete({ _id:args.pinId}).exec()
-    }
+    deletePin: authenticated(async (root, args, ctx) => {
+      const pinDeleted = await Pin.findOneAndDelete({ _id: args.pinId }).exec();
+      return pinDeleted;
+    }),
  }
 }
