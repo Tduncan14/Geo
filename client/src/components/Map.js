@@ -5,6 +5,7 @@ import PinIcon from './PinIcon.js';
 import Context from '../context';
 import Blog from './Blog';
 import { useClient } from '../client';
+import{Subscription} from 'react-apollo'
 import {GET_PINS_QUERY} from '../graphql/queries';
 import differenceInMinutes from "date-fns/difference_in_minutes";
 import { Typography } from "@material-ui/core";
@@ -225,6 +226,12 @@ const Map = ({classes}) => {
             )}
 
             </ReactMapGL>
+            {/* subs */}
+            <Subscription
+             subscription={} 
+             onSubscriptionData={({subscriptionData}) =>{
+               
+             }}/>
 
             {/* Blog area for pin content */}
 
