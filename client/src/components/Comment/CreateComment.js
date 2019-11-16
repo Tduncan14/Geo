@@ -9,31 +9,21 @@ import {CREATE_COMMENT_MUTATION} from '../../graphql/mutations';
 import {useClient} from '../../client';
 import Context from '../../context';
 
-const CreateComment = ({classes}) =>{
+const CreateComment = ({ classes }) => {
+  const client = useClient();
+  const { state,dispatch } = useContext(Context);
+  const [comment, setComment] = useState("");
 
-   const [comment, setComment] = useState("");
+  const handleSubmitComment = async () => {
+    const variables = { pinId: state.currentPin._id, text: comment };
+   const {createComment} = await client.request(CREATE_COMMENT_MUTATION, variables);
 
-   const {state,dispatch} = useContext(Context);
-   const client = useClient();
+   dispatch({type:'CREATE_COMMENT', payload:createComment})
+    setComment("");
+  };
 
-
-
-
-
-   const handleSubmitComment = async () => {
-
-    const variables = {pinId: state.currentPin._id, text:comment}
-
-    const {createComment } = await client.request(CREATE_COMMENT_MUTATION,variables);
-
-      dispatch({ type:"CREATE_COMMENT", payload:createComment})
-      
-      setComment(" ")
-   }
-
-
-    return(
-       <>
+  return (
+    <>
       <form className={classes.form}>
         <IconButton
           onClick={() => setComment("")}
@@ -58,30 +48,27 @@ const CreateComment = ({classes}) =>{
         </IconButton>
       </form>
       <Divider />
-       </>
-    )
-}
-
+    </>
+  );
+};
 
 const styles = theme => ({
-    form: {
-      display: "flex",
-      alignItems: "center"
-    },
-    input: {
-      marginLeft: 8,
-      flex: 1
-    },
-    clearButton: {
-      padding: 0,
-      color: "red"
-    },
-    sendButton: {
-      padding: 0,
-      color: theme.palette.secondary.dark
-    }
-  });
+  form: {
+    display: "flex",
+    alignItems: "center"
+  },
+  input: {
+    marginLeft: 8,
+    flex: 1
+  },
+  clearButton: {
+    padding: 0,
+    color: "red"
+  },
+  sendButton: {
+    padding: 0,
+    color: theme.palette.secondary.dark
+  }
+});
 
-export default CreateComment;
-
-
+export default withStyles(styles)(CreateComment);

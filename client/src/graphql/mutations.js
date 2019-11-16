@@ -33,13 +33,10 @@ export const DELETE_PIN_MUTATION = `
 `;
 
 export const CREATE_COMMENT_MUTATION = `
-
-  mutation($pinId: ID!, $text:String!) {
-
-    createComment(pinId: $pinId, text: $text){
-
+  mutation($pinId: ID!, $text: String!) {
+    createComment(pinId: $pinId, text: $text) {
       _id
-      created
+      createdAt
       title
       content
       image
@@ -49,18 +46,14 @@ export const CREATE_COMMENT_MUTATION = `
         _id
         name
       }
-      comments{
+      comments {
         text
         createdAt
-        author{
+        author {
           name
           picture
         }
       }
-
-
-
     }
   }
-
-`
+`;
