@@ -83,6 +83,19 @@ case "DELETE_PIN":
            }
      }
 
+     case 'CREATE_COMMENT':
+          
+         const updateCurrentPin = payload
+         //find and replace
+
+        const updatedPins =
+         state.pins.map(pin => pin._id === updatedCurrentPin._id ? updateCurrentPin : pin)
+
+        return {
+            ...state,
+            pins:updatedPins,
+            currentPin:updatedCurrentPin
+        }
        
    default:
        return state
