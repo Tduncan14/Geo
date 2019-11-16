@@ -65,6 +65,24 @@ case "SET_PIN":
         draft:null
     }
 
+case "DELETE_PIN":
+
+    const deletePin = payload;
+    
+    const filteredPins = state.pins.filter(pin => pin._id !== deletePin._id)
+    
+     if(state.currentPin){
+           const isCurrentPin = deletePin._id === state.currentPin._id;
+           if(isCurrentPin){
+               
+             return {
+                 ...state,
+                 pins: filteredPins,
+                 currentPin:null,
+             }
+           }
+     }
+
        
    default:
        return state

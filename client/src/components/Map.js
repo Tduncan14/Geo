@@ -72,7 +72,10 @@ const Map = ({classes}) => {
 
        const variables = {pinId: pin._id}
 
-       await client.request(DELETE_PIN_MUTATION, variables);
+       const {deletePin} = await client.request(DELETE_PIN_MUTATION, variables);
+
+
+       dispatch({ type:"DELETE_PIN" , payload:deletePin} )
 
        setPopup(null)
 
