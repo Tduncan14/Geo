@@ -19,6 +19,14 @@ Subscription {
           email
           picture
         }
+        comments {
+          text
+          createdAt
+          author {
+            name
+            picture
+          }
+        }
     }
 }
 
@@ -55,5 +63,16 @@ Subscription{
 }
 
 
+
+`
+
+export const PIN_DELETED_SUBSCRIPTION = gql`
+
+  subscription {
+
+    pinDeleted{
+      _id
+    }
+  }
 
 `
